@@ -1,0 +1,26 @@
+version: "3"
+
+tasks:
+  setup:
+    cmds:
+      - npm install
+      - npm install -g commitizen
+      - npm install -g semantic-release
+      - cd src-tauri && cargo build
+
+  dev:
+    cmds:
+      - npm run tauri dev
+
+  build:
+    cmds:
+      - npm run tauri build
+
+  test:
+    cmds:
+      - npm test
+      - cd src-tauri && cargo test
+
+  release:
+    cmds:
+      - semantic-release
