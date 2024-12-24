@@ -4,8 +4,6 @@ tasks:
   setup:
     cmds:
       - npm install
-      - npm install -g commitizen
-      - npm install -g semantic-release
       - cd src-tauri && cargo build
 
   dev:
@@ -18,8 +16,43 @@ tasks:
 
   test:
     cmds:
+      - task: test:unit
+      - task: test:integration
+      - task: test:e2e
+
+  test:unit:
+    cmds:
       - npm test
-      - cd src-tauri && cargo test
+      - cd src-tauri && cargo test --lib
+
+  test:integration:
+    cmds:
+      - cd src-tauri && cargo test --test '*'
+
+  test:e2e:
+    cmds:
+      - lsof -ti:1420 | xargs kill -9 || true
+      - pkill -f "tauri dev" || true
+      - npm run tauri dev &
+      - npx wait-on tcp:1420
+      - npm run cypress:run
+      - pkill -f "tauri dev"
+
+  lint:
+    cmds:
+      - npm run lint
+      - cd src-tauri && cargo fmt --check
+
+  format:
+    cmds:
+      - npm run format
+      - cd src-tauri && cargo fmt
+
+  ci:
+    cmds:
+      - task: lint
+      - task: test
+      - task: build
 
   release:
     cmds:
