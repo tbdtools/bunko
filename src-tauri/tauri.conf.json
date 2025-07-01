@@ -13,12 +13,30 @@
     "windows": [
       {
         "title": "bunko",
-        "width": 800,
-        "height": 600
+        "width": 1200,
+        "height": 800
       }
     ],
     "security": {
       "csp": null
+    }
+  },
+  "plugins": {
+    "cli": {
+      "description": "A modern note-taking application",
+      "args": [
+        {
+          "name": "path",
+          "description": "Path to the notebook directory",
+          "takesValue": true,
+          "index": 1
+        },
+        {
+          "name": "tui",
+          "description": "Launch terminal UI instead of desktop app",
+          "takesValue": false
+        }
+      ]
     }
   },
   "bundle": {
